@@ -1,19 +1,22 @@
-import { Terminal, ITerminalAddon } from 'xterm';
+import { IDisposable, Terminal, ITerminalAddon } from 'xterm';
 
 export class ScrollDownHelperAddon implements ITerminalAddon {
     private terminal: Terminal = new Terminal();
     private element?: HTMLDivElement;
+    private scrollDisposable?: IDisposable;
+    private lineFeedDisposable?: IDisposable;
+    private clickHandler?: () => void;
 
     activate(terminal: Terminal): void {
         this.terminal = terminal;
 
-        this.terminal.onScroll(() => {
+        this.scrollDisposable = this.terminal.onScroll(() => {
             if (this.isScrolledDown()) {
                 this.hide();
             }
         });
 
-        this.terminal.onLineFeed(() => {
+        this.lineFeedDisposable = this.terminal.onLineFeed(() => {
             if (!this.isScrolledDown()) {
                 this.show();
             }
@@ -23,7 +26,19 @@ export class ScrollDownHelperAddon implements ITerminalAddon {
     }
 
     dispose(): void {
-        // ignore
+        this.scrollDisposable?.dispose();
+        this.lineFeedDisposable?.dispose();
+        this.scrollDisposable = undefined;
+        this.lineFeedDisposable = undefined;
+
+        if (this.element) {
+            if (this.clickHandler) {
+                this.element.removeEventListener('click', this.clickHandler);
+            }
+            this.element.remove();
+            this.element = undefined;
+        }
+        this.clickHandler = undefined;
     }
 
     show(): void {
@@ -50,9 +65,10 @@ export class ScrollDownHelperAddon implements ITerminalAddon {
         this.element.style.zIndex = '999';
         this.element.style.cursor = 'pointer';
 
-        this.element.addEventListener('click', () => {
+        this.clickHandler = () => {
             this.terminal.scrollToBottom();
-        });
+        };
+        this.element.addEventListener('click', this.clickHandler);
 
         this.terminal.element.appendChild(this.element);
     }
