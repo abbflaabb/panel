@@ -94,6 +94,8 @@ Route::group([
         Route::post('/chmod', [Client\Servers\FileController::class, 'chmod']);
         Route::middleware([ResourceLimit::FilePull->middleware()])
             ->post('/pull', [Client\Servers\FileController::class, 'pull']);
+        Route::middleware([ResourceLimit::FilePull->middleware()])
+            ->post('/plugins/install', [Client\Servers\PluginController::class, 'install']);
         Route::get('/upload', Client\Servers\FileUploadController::class);
     });
 

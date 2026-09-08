@@ -1,0 +1,41 @@
+name: Dependency security
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 1.0-develop
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit dependencies
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install JavaScript dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Audit JavaScript dependencies
+        continue-on-error: true
+        run: yarn audit --level high
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Audit PHP dependencies
+        continue-on-error: true
+        run: composer audit --locked

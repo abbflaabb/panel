@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import ServerConsole from '@/components/server/console/ServerConsoleContainer';
+import PluginsContainer from '@/components/server/plugins/PluginsContainer';
 import DatabasesContainer from '@/components/server/databases/DatabasesContainer';
 import ScheduleContainer from '@/components/server/schedules/ScheduleContainer';
 import UsersContainer from '@/components/server/users/UsersContainer';
@@ -79,6 +80,12 @@ export default {
             permission: 'file.*',
             name: 'Files',
             component: FileManagerContainer,
+        },
+        {
+            path: '/plugins',
+            permission: 'file.create',
+            name: 'Plugins',
+            component: PluginsContainer,
         },
         {
             path: '/files/:action(edit|new)',
