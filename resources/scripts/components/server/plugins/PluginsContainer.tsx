@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import tw from 'twin.macro';
 import { useDeepCompareEffect } from '@/plugins/useDeepCompareEffect';
@@ -11,6 +11,8 @@ import ServerContentBlock from '@/components/elements/ServerContentBlock';
 import FlashMessageRender from '@/components/FlashMessageRender';
 import { ServerContext } from '@/state/server';
 import pullFile from '@/api/server/files/pullFile';
+import loadDirectory, { FileObject } from '@/api/server/files/loadDirectory';
+import deleteFiles from '@/api/server/files/deleteFiles';
 
 interface PluginResult {
     id: string;
@@ -100,6 +102,25 @@ const PluginsContainer = () => {
     const [loading, setLoading] = useState(false);
     const [installing, setInstalling] = useState<string | null>(null);
     const [error, setError] = useState('');
+    const [installedPlugins, setInstalledPlugins] = useState<FileObject[]>([]);
+    const [loadingInstalled, setLoadingInstalled] = useState(true);
+    const [deleting, setDeleting] = useState<string | null>(null);
+
+    const refreshInstalled = async () => {
+        setLoadingInstalled(true);
+        try {
+            const files = await loadDirectory(uuid, '/plugins');
+            setInstalledPlugins(files.filter((file) => file.isFile && file.name.toLowerCase().endsWith('.jar')));
+        } catch (error) {
+            clearAndAddHttpError({ error, key: 'plugins' });
+        } finally {
+            setLoadingInstalled(false);
+        }
+    };
+
+    useEffect(() => {
+        refreshInstalled();
+    }, [uuid]);
 
     const search = async (event?: FormEvent) => {
         event?.preventDefault();
@@ -117,11 +138,27 @@ const PluginsContainer = () => {
         }
     };
 
+    const remove = async (plugin: FileObject) => {
+        if (!window.confirm(`Delete ${plugin.name} from the plugins directory?`)) return;
+
+        setDeleting(plugin.name);
+        clearFlashes('plugins');
+        try {
+            await deleteFiles(uuid, '/plugins', [plugin.name]);
+            await refreshInstalled();
+        } catch (error) {
+            clearAndAddHttpError({ error, key: 'plugins' });
+        } finally {
+            setDeleting(null);
+        }
+    };
+
     const install = async (plugin: PluginResult) => {
         setInstalling(plugin.id);
         clearFlashes('plugins');
         try {
             await pullFile(uuid, plugin.url, plugin.fileName);
+            await refreshInstalled();
         } catch (error) {
             clearAndAddHttpError({ error, key: 'plugins' });
         } finally {
@@ -188,6 +225,56 @@ const PluginsContainer = () => {
             </div>
             {error && <p css={tw`text-red-300 text-sm mb-4`}>{error}</p>}
             {loading && <Spinner size={'large'} centered />}
+            <Can action={'file.read'}>
+                <div css={tw`bg-neutral-700 rounded p-4 mb-4`}>
+                    <div css={tw`flex items-center justify-between mb-3`}>
+                        <div>
+                            <h2 css={tw`text-lg text-neutral-100`}>Installed plugins</h2>
+                            <p css={tw`text-sm text-neutral-300 mt-1`}>
+                                JAR files currently stored in <code>/plugins</code>.
+                            </p>
+                        </div>
+                        <Button
+                            size={'small'}
+                            disabled={loadingInstalled}
+                            isLoading={loadingInstalled}
+                            onClick={refreshInstalled}
+                        >
+                            Refresh
+                        </Button>
+                    </div>
+                    {loadingInstalled ? (
+                        <Spinner size={'small'} centered />
+                    ) : installedPlugins.length === 0 ? (
+                        <p css={tw`text-sm text-neutral-400`}>No JAR plugins installed.</p>
+                    ) : (
+                        <div css={tw`space-y-2`}>
+                            {installedPlugins.map((plugin) => (
+                                <div
+                                    key={plugin.key}
+                                    css={tw`flex items-center justify-between gap-3 bg-neutral-800 rounded p-3`}
+                                >
+                                    <div css={tw`min-w-0`}>
+                                        <p css={tw`text-neutral-100 truncate`}>{plugin.name}</p>
+                                        <p css={tw`text-xs text-neutral-400`}>{plugin.size.toLocaleString()} bytes</p>
+                                    </div>
+                                    <Can action={'file.delete'}>
+                                        <Button
+                                            color={'red'}
+                                            size={'small'}
+                                            disabled={deleting !== null}
+                                            isLoading={deleting === plugin.name}
+                                            onClick={() => remove(plugin)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Can>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </Can>
             <Can action={'file.create'}>
                 <div css={tw`space-y-2`}>
                     {results.map((plugin) => (
