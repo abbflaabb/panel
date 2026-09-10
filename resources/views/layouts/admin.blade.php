@@ -95,6 +95,11 @@
                                 <i class="fa fa-globe"></i> <span>Locations</span>
                             </a>
                         </li>
+                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.domains') ?: 'active' }}">
+                            <a href="{{ route('admin.domains') }}">
+                                <i class="fa fa-globe"></i> <span>Domains & DNS</span>
+                            </a>
+                        </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nodes') ?: 'active' }}">
                             <a href="{{ route('admin.nodes') }}">
                                 <i class="fa fa-sitemap"></i> <span>Nodes</span>

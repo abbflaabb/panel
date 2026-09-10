@@ -6,6 +6,14 @@ use Pterodactyl\Http\Middleware\Admin\Servers\ServerInstalled;
 
 Route::get('/', [Admin\BaseController::class, 'index'])->name('admin.index');
 
+Route::group(['prefix' => 'domains'], function () {
+    Route::get('/', [Admin\DomainController::class, 'index'])->name('admin.domains');
+    Route::post('/', [Admin\DomainController::class, 'storeDomain'])->name('admin.domains.store');
+    Route::delete('/{domain}', [Admin\DomainController::class, 'destroyDomain'])->name('admin.domains.destroy');
+    Route::post('/{domain}/records', [Admin\DomainController::class, 'storeRecord'])->name('admin.domains.records.store');
+    Route::delete('/records/{record}', [Admin\DomainController::class, 'destroyRecord'])->name('admin.domains.records.destroy');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Location Controller Routes
