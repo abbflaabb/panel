@@ -99,6 +99,14 @@ class Permission extends Model
      * @see \Pterodactyl\Models\Permission::permissions()
      */
     protected static array $permissions = [
+        'subdomain' => [
+            'description' => 'Permissions for managing server subdomains.',
+            'keys' => [
+                'read' => 'Allows a user to view subdomains assigned to the server.',
+                'manage' => 'Allows a user to create and delete subdomains for the server.',
+            ],
+        ],
+
         'websocket' => [
             'description' => 'Allows the user to connect to the server websocket, giving them access to view console output and realtime server stats.',
             'keys' => [

@@ -113,6 +113,12 @@ Route::group([
         Route::delete('/{schedule}/tasks/{task}', [Client\Servers\ScheduleTaskController::class, 'delete']);
     });
 
+    Route::group(['prefix' => '/subdomains'], function () {
+        Route::get('/', [Client\Servers\SubdomainController::class, 'index']);
+        Route::post('/', [Client\Servers\SubdomainController::class, 'store']);
+        Route::delete('/{subdomain}', [Client\Servers\SubdomainController::class, 'delete']);
+    });
+
     Route::group(['prefix' => '/network'], function () {
         Route::get('/allocations', [Client\Servers\NetworkAllocationController::class, 'index']);
         Route::middleware([ResourceLimit::Allocation->middleware()])
