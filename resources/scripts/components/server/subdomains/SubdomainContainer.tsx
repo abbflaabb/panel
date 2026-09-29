@@ -83,13 +83,13 @@ export default () => {
                 data && (
                     <>
                         <div css={tw`mb-6`}>
-                            <h2 css={tw`text-xl text-neutral-100 mb-2`}>Subdomains</h2>
-                            <p css={tw`text-sm text-neutral-300`}>
+                            <h2 css={tw`text-xl text-purple-100 mb-2`}>Subdomains</h2>
+                            <p css={tw`text-sm text-purple-200`}>
                                 Create a Minecraft hostname linked to one of this server&apos;s allocations.
                             </p>
                         </div>
                         <Can action={'subdomain.manage'}>
-                            <form onSubmit={submit} css={tw`bg-neutral-700 rounded p-4 mb-6`}>
+                            <form onSubmit={submit} css={tw`bg-purple-900 rounded p-4 mb-6`}>
                                 <div css={tw`grid grid-cols-1 md:grid-cols-4 gap-4 items-end`}>
                                     <div>
                                         <Label>Subdomain</Label>
@@ -143,15 +143,15 @@ export default () => {
                                 {data.subdomains.map((item) => (
                                     <div
                                         key={item.id}
-                                        css={tw`bg-neutral-700 rounded p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4`}
+                                        css={tw`bg-purple-900 rounded p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4`}
                                     >
                                         <div>
-                                            <div css={tw`text-xs uppercase text-neutral-400`}>Subdomain</div>
-                                            <code css={tw`text-neutral-100`}>{item.fqdn}</code>
+                                            <div css={tw`text-xs uppercase text-purple-300`}>Subdomain</div>
+                                            <code css={tw`text-purple-100`}>{item.fqdn}</code>
                                         </div>
                                         <div>
-                                            <div css={tw`text-xs uppercase text-neutral-400`}>Allocation</div>
-                                            <code css={tw`text-neutral-100`}>{item.allocation}</code>
+                                            <div css={tw`text-xs uppercase text-purple-300`}>Allocation</div>
+                                            <code css={tw`text-purple-100`}>{item.allocation}</code>
                                         </div>
                                         <Can action={'subdomain.manage'}>
                                             <Button

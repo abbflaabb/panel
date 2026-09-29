@@ -81,7 +81,7 @@ Route::group([
     });
 
     Route::group(['prefix' => '/files'], function () {
-        Route::get('/list', [Client\Servers\FileController::class, 'directory']);
+        Route::get('/list', [Pterodactyl\BlueprintFramework\Extensions\sagatrashbin\TrashBinFileController::class, 'directory']);
         Route::get('/contents', [Client\Servers\FileController::class, 'contents']);
         Route::get('/download', [Client\Servers\FileController::class, 'download']);
         Route::put('/rename', [Client\Servers\FileController::class, 'rename']);
@@ -89,13 +89,11 @@ Route::group([
         Route::post('/write', [Client\Servers\FileController::class, 'write']);
         Route::post('/compress', [Client\Servers\FileController::class, 'compress']);
         Route::post('/decompress', [Client\Servers\FileController::class, 'decompress']);
-        Route::post('/delete', [Client\Servers\FileController::class, 'delete']);
+        Route::post('/delete', [Pterodactyl\BlueprintFramework\Extensions\sagatrashbin\TrashBinFileController::class, 'delete']);
         Route::post('/create-folder', [Client\Servers\FileController::class, 'create']);
         Route::post('/chmod', [Client\Servers\FileController::class, 'chmod']);
         Route::middleware([ResourceLimit::FilePull->middleware()])
             ->post('/pull', [Client\Servers\FileController::class, 'pull']);
-        Route::middleware([ResourceLimit::FilePull->middleware()])
-            ->post('/plugins/install', [Client\Servers\PluginController::class, 'install']);
         Route::get('/upload', Client\Servers\FileUploadController::class);
     });
 

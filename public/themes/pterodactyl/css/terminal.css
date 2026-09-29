@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 #terminal-body {
-    background: #040804;
+    background: #090611;
     margin: 0;
     width: 100%;
     height: 100%;
@@ -11,8 +11,8 @@
 
 #terminal {
     font-family: 'IBM Plex Mono', 'Source Code Pro', monospace;
-    color: #a5d6a7;
-    background: #040804;
+    color: #ddd6fe;
+    background: #090611;
     font-size: 12px;
     line-height: 16px;
     padding: 12px;
@@ -22,7 +22,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 8px 8px 0 0;
-    border: 1px solid #1a2d1a;
+    border: 1px solid #251e35;
     border-bottom: none;
 }
 
@@ -34,11 +34,11 @@
 
 #terminal_input {
     width: 100%;
-    background: #040804;
+    background: #090611;
     border-radius: 0 0 8px 8px;
     padding: 0 0 0 12px !important;
-    border: 1px solid #1a2d1a;
-    border-top: 1px solid #1a3d1a;
+    border: 1px solid #251e35;
+    border-top: 1px solid #352b4a;
 }
 
 .terminal_input--input,
@@ -47,7 +47,7 @@
     margin-bottom: 0;
     border: 0 !important;
     background: transparent !important;
-    color: #69f07a;
+    color: #a78bfa;
     font-size: 12px;
     padding: 4px 0 6px !important;
 }
@@ -56,7 +56,7 @@
     margin-left: 6px;
     line-height: 1;
     outline: none !important;
-    color: #a5d6a7;
+    color: #ddd6fe;
 }
 
 .terminal-notify {
@@ -65,9 +65,9 @@
     bottom: 30px;
     padding: 4px 8px;
     border-radius: 4px;
-    background: #0d1410;
-    border: 1px solid #1e3a1e;
-    color: #3ddc52;
+    background: #0b0814;
+    border: 1px solid #352b4a;
+    color: #8b5cf6;
     opacity: 0.7;
     font-size: 14px;
     cursor: pointer;
@@ -77,7 +77,7 @@
 
 .terminal-notify:hover {
     opacity: 1;
-    border-color: #3ddc52;
+    border-color: #8b5cf6;
 }
 
 /* ── ANSI Colors ── */

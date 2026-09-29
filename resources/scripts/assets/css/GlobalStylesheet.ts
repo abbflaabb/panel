@@ -46,7 +46,7 @@ export default createGlobalStyle`
 
     /* Scroll Bar Style */
     ::-webkit-scrollbar {
-        background: none;
+        background: #090611;
         width: 16px;
         height: 16px;
     }
@@ -56,7 +56,7 @@ export default createGlobalStyle`
         border-right-width: 4px;
         border-left-width: 4px;
         -webkit-border-radius: 9px 4px;
-        -webkit-box-shadow: inset 0 0 0 1px #1e3a1e, inset 0 0 0 4px #0d1a0d;
+        -webkit-box-shadow: inset 0 0 0 1px #352b4a, inset 0 0 0 4px #161126;
     }
 
     ::-webkit-scrollbar-track-piece {

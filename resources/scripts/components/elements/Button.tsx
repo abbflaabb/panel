@@ -36,17 +36,17 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
     ${(props) =>
         props.color === 'green' &&
         css<Props>`
-            ${tw`border-green-600 bg-green-500 text-green-50`};
+            ${tw`border-primary-600 bg-primary-500 text-primary-50`};
 
             &:hover:not(:disabled) {
-                ${tw`bg-green-600 border-green-700`};
+                ${tw`bg-primary-600 border-primary-700`};
             }
 
             ${(props) =>
                 props.isSecondary &&
                 css`
                     &:active:not(:disabled) {
-                        ${tw`bg-green-600 border-green-700`};
+                        ${tw`bg-primary-600 border-primary-700`};
                     }
                 `};
         `};
@@ -83,7 +83,7 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
                 ${tw`border-neutral-500 text-neutral-100`};
                 ${(props) => props.color === 'red' && tw`bg-red-500 border-red-600 text-red-50`};
                 ${(props) => props.color === 'primary' && tw`bg-primary-500 border-primary-600 text-primary-50`};
-                ${(props) => props.color === 'green' && tw`bg-green-500 border-green-600 text-green-50`};
+                ${(props) => props.color === 'green' && tw`bg-primary-500 border-primary-600 text-primary-50`};
             }
         `};
 

@@ -1,3 +1,6 @@
+@include("blueprint.admin.admin")
+@yield('blueprint.lib')
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,13 +31,17 @@
             {!! Theme::css('css/pterodactyl.css?t={cache-version}') !!}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
             <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
         @show
+
+        @yield("blueprint.import")
     </head>
     <body class="hold-transition skin-blue fixed sidebar-mini">
+        @yield('blueprint.cache')
         <div class="wrapper">
             <header class="main-header">
                 <a href="{{ route('index') }}" class="logo">
@@ -55,6 +62,7 @@
                                     <span class="hidden-xs">{{ Auth::user()->name_first }} {{ Auth::user()->name_last }}</span>
                                 </a>
                             </li>
+                            @yield("blueprint.navigation")
                             <li>
                                 <li><a href="{{ route('index') }}" data-toggle="tooltip" data-placement="bottom" title="Exit Admin Control"><i class="fa fa-server"></i></a></li>
                             </li>
@@ -85,6 +93,7 @@
                             </a>
                         </li>
                         <li class="header">MANAGEMENT</li>
+                        @yield("blueprint.sidenav")
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.databases') ?: 'active' }}">
                             <a href="{{ route('admin.databases') }}">
                                 <i class="fa fa-database"></i> <span>Databases</span>
@@ -93,11 +102,6 @@
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.locations') ?: 'active' }}">
                             <a href="{{ route('admin.locations') }}">
                                 <i class="fa fa-globe"></i> <span>Locations</span>
-                            </a>
-                        </li>
-                        <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.domains') ?: 'active' }}">
-                            <a href="{{ route('admin.domains') }}">
-                                <i class="fa fa-globe"></i> <span>Domains & DNS</span>
                             </a>
                         </li>
                         <li class="{{ ! starts_with(Route::currentRouteName(), 'admin.nodes') ?: 'active' }}">
@@ -131,6 +135,7 @@
             </aside>
             <div class="content-wrapper">
                 <section class="content-header">
+                    @yield('blueprint.introduction')
                     @yield('content-header')
                 </section>
                 <section class="content">
@@ -163,7 +168,11 @@
                     <strong><i class="fa fa-fw {{ $appIsGit ? 'fa-git-square' : 'fa-code-fork' }}"></i></strong> {{ $appVersion }}<br />
                     <strong><i class="fa fa-fw fa-clock-o"></i></strong> {{ round(microtime(true) - LARAVEL_START, 3) }}s
                 </div>
-                Copyright &copy; 2025 - {{ date('Y') }} <a href="https://discord.gg/TDFqfAJvQj">PRIXI Software</a>.
+                @if(starts_with(Route::currentRouteName(), 'admin.extensions'))
+                    Copyright &copy; 2023 - {{ date('Y') }} <a href="https://blueprint.zip/">Blueprint Framework</a>, Emma (<a href="https://prpl.wtf/">prpl.wtf</a>) and contributors.
+                @else
+                    Copyright &copy; 2015 - {{ date('Y') }} <a href="https://pterodactyl.io/">Pterodactyl Software</a>
+                @endif
             </footer>
         </div>
         @section('footer-scripts')
@@ -214,5 +223,6 @@
                 })
             </script>
         @show
+        @yield('blueprint.wrappers')
     </body>
 </html>

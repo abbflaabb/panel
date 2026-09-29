@@ -2,13 +2,6 @@
 
 namespace Pterodactyl\Exceptions;
 
-use Spatie\Ignition\Contracts\Solution;
-use Spatie\Ignition\Contracts\ProvidesSolution;
-
-class ManifestDoesNotExistException extends \Exception implements ProvidesSolution
+class ManifestDoesNotExistException extends \Exception
 {
-    public function getSolution(): Solution
-    {
-        return new Solutions\ManifestDoesNotExistSolution();
-    }
 }

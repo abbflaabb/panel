@@ -4,7 +4,6 @@ import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { SearchBarAddon } from 'xterm-addon-search-bar';
 import { WebLinksAddon } from 'xterm-addon-web-links';
-import { Unicode11Addon } from 'xterm-addon-unicode11';
 import { ScrollDownHelperAddon } from '@/plugins/XtermScrollDownHelperAddon';
 import SpinnerOverlay from '@/components/elements/SpinnerOverlay';
 import { ServerContext } from '@/state/server';
@@ -17,6 +16,8 @@ import { SocketEvent, SocketRequest } from '@/components/server/events';
 import classNames from 'classnames';
 import { ChevronDoubleRightIcon } from '@heroicons/react/solid';
 
+import CommandRow from '@blueprint/components/Server/Terminal/CommandRow';
+
 import 'xterm/css/xterm.css';
 import styles from './style.module.css';
 
@@ -25,7 +26,7 @@ const theme = {
     cursor: 'transparent',
     black: th`colors.black`.toString(),
     red: '#E54B4B',
-    green: '#9ECE58',
+    green: '#8b5cf6',
     yellow: '#FAED70',
     blue: '#396FE2',
     magenta: '#BB80B3',
@@ -33,7 +34,7 @@ const theme = {
     white: '#d0d0d0',
     brightBlack: 'rgba(255, 255, 255, 0.2)',
     brightRed: '#FF5370',
-    brightGreen: '#C3E88D',
+    brightGreen: '#c4b5fd',
     brightYellow: '#FFCB6B',
     brightBlue: '#82AAFF',
     brightMagenta: '#C792EA',
@@ -60,7 +61,6 @@ export default () => {
     const searchAddon = new SearchAddon();
     const searchBar = new SearchBarAddon({ searchAddon });
     const webLinksAddon = new WebLinksAddon();
-    const unicode11Addon = new Unicode11Addon();
     const scrollDownHelperAddon = new ScrollDownHelperAddon();
     const { connected, instance } = ServerContext.useStoreState((state) => state.socket);
     const [canSendCommands] = usePermissions(['control.console']);
@@ -129,14 +129,9 @@ export default () => {
             terminal.loadAddon(searchAddon);
             terminal.loadAddon(searchBar);
             terminal.loadAddon(webLinksAddon);
-            terminal.loadAddon(unicode11Addon);
             terminal.loadAddon(scrollDownHelperAddon);
 
             terminal.open(ref.current);
-
-            // Activate Unicode 11 for proper emoji and special character width handling
-            terminal.unicode.activeVersion = '11';
-
             fitAddon.fit();
             searchBar.addNewStyle(zIndex);
 
@@ -228,6 +223,7 @@ export default () => {
                     >
                         <ChevronDoubleRightIcon className={'w-4 h-4'} />
                     </div>
+                    <CommandRow />
                 </div>
             )}
         </div>

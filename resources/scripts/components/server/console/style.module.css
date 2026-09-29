@@ -37,11 +37,11 @@
             @apply h-full;
 
             &::-webkit-scrollbar-track {
-                @apply w-2;
+                @apply w-2 bg-black;
             }
 
             &::-webkit-scrollbar-thumb {
-                @apply bg-gray-900;
+                @apply bg-primary-700;
             }
         }
     }
@@ -60,4 +60,23 @@
 
 .chart_container {
     @apply bg-gray-600 rounded shadow-lg pt-2 border-b-4 border-gray-700 relative;
+}
+
+:global(.xterm .xterm-viewport) {
+    background-color: #090611 !important;
+    scrollbar-color: #6d28d9 #090611;
+}
+
+:global(.xterm .xterm-viewport::-webkit-scrollbar) {
+    width: 8px;
+    background: #090611;
+}
+
+:global(.xterm .xterm-viewport::-webkit-scrollbar-track) {
+    background: #090611;
+}
+
+:global(.xterm .xterm-viewport::-webkit-scrollbar-thumb) {
+    background: #6d28d9;
+    border: none;
 }

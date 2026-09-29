@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import ServerConsole from '@/components/server/console/ServerConsoleContainer';
-import PluginsContainer from '@/components/server/plugins/PluginsContainer';
 import SubdomainContainer from '@/components/server/subdomains/SubdomainContainer';
 import DatabasesContainer from '@/components/server/databases/DatabasesContainer';
 import ScheduleContainer from '@/components/server/schedules/ScheduleContainer';
@@ -82,12 +81,7 @@ export default {
             name: 'Files',
             component: FileManagerContainer,
         },
-        {
-            path: '/plugins',
-            permission: 'file.create',
-            name: 'Plugins',
-            component: PluginsContainer,
-        },
+        
         {
             path: '/subdomains',
             permission: 'subdomain.read',
